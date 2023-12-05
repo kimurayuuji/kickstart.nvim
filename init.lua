@@ -208,14 +208,15 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ':TSUpdate',
-  },
+-- commented-out by kimura
+--  {
+--    -- Highlight, edit, and navigate code
+--    'nvim-treesitter/nvim-treesitter',
+--    dependencies = {
+--      'nvim-treesitter/nvim-treesitter-textobjects',
+--    },
+--    build = ':TSUpdate',
+--  },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -230,6 +231,30 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
+
+  -- see https://github.com/yukimemi/dps-hitori
+  -- requirements
+  -- * <pre>winget install deno</pre>
+  -- * <pre>
+  --     iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
+  --     ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
+  --   </pre>
+  {
+    "yukimemi/dps-hitori",
+    lazy = false,
+    dependencies = {
+      "vim-denops/denops.vim",
+    },
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons"
+    },
+    config = function()
+      vim.keymap.set("n", "<leader>E", ":NvimTreeToggle<CR>", {silent = true})
+    end,
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -372,74 +397,75 @@ vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by 
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 
+-- commented-out by kimura
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-vim.defer_fn(function()
-  require('nvim-treesitter.configs').setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
-
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
-
-    highlight = { enable = true },
-    indent = { enable = true },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
-      },
-    },
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ['aa'] = '@parameter.outer',
-          ['ia'] = '@parameter.inner',
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-        },
-      },
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          [']m'] = '@function.outer',
-          [']]'] = '@class.outer',
-        },
-        goto_next_end = {
-          [']M'] = '@function.outer',
-          [']['] = '@class.outer',
-        },
-        goto_previous_start = {
-          ['[m'] = '@function.outer',
-          ['[['] = '@class.outer',
-        },
-        goto_previous_end = {
-          ['[M'] = '@function.outer',
-          ['[]'] = '@class.outer',
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
-    },
-  }
-end, 0)
+--vim.defer_fn(function()
+--  require('nvim-treesitter.configs').setup {
+--    -- Add languages to be installed here that you want installed for treesitter
+--    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+--
+--    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+--    auto_install = false,
+--
+--    highlight = { enable = true },
+--    indent = { enable = true },
+--    incremental_selection = {
+--      enable = true,
+--      keymaps = {
+--        init_selection = '<c-space>',
+--        node_incremental = '<c-space>',
+--        scope_incremental = '<c-s>',
+--        node_decremental = '<M-space>',
+--      },
+--    },
+--    textobjects = {
+--      select = {
+--        enable = true,
+--        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+--        keymaps = {
+--          -- You can use the capture groups defined in textobjects.scm
+--          ['aa'] = '@parameter.outer',
+--          ['ia'] = '@parameter.inner',
+--          ['af'] = '@function.outer',
+--          ['if'] = '@function.inner',
+--          ['ac'] = '@class.outer',
+--          ['ic'] = '@class.inner',
+--        },
+--      },
+--      move = {
+--        enable = true,
+--        set_jumps = true, -- whether to set jumps in the jumplist
+--        goto_next_start = {
+--          [']m'] = '@function.outer',
+--          [']]'] = '@class.outer',
+--        },
+--        goto_next_end = {
+--          [']M'] = '@function.outer',
+--          [']['] = '@class.outer',
+--        },
+--        goto_previous_start = {
+--          ['[m'] = '@function.outer',
+--          ['[['] = '@class.outer',
+--        },
+--        goto_previous_end = {
+--          ['[M'] = '@function.outer',
+--          ['[]'] = '@class.outer',
+--        },
+--      },
+--      swap = {
+--        enable = true,
+--        swap_next = {
+--          ['<leader>a'] = '@parameter.inner',
+--        },
+--        swap_previous = {
+--          ['<leader>A'] = '@parameter.inner',
+--        },
+--      },
+--    },
+--  }
+--end, 0)
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
@@ -606,3 +632,9 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+require("nvim-tree").setup()
+
+require('configs')
+require('scripts')
+
