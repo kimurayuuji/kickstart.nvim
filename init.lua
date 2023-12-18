@@ -207,7 +207,6 @@ require('lazy').setup({
       },
     },
   },
-
 -- commented-out by kimura
 --  {
 --    -- Highlight, edit, and navigate code
@@ -255,6 +254,10 @@ require('lazy').setup({
       vim.keymap.set("n", "<leader>E", ":NvimTreeToggle<CR>", {silent = true})
     end,
   },
+  {
+    -- amongst your other plugins
+    {'akinsho/toggleterm.nvim', version = "*", config = true}
+  }
 }, {})
 
 -- [[ Setting options ]]
@@ -638,3 +641,6 @@ require("nvim-tree").setup()
 require('configs')
 require('scripts')
 
+require("toggleterm").setup({
+
+})
