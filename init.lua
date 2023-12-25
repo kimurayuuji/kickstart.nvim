@@ -257,6 +257,19 @@ require('lazy').setup({
   {
     -- amongst your other plugins
     {'akinsho/toggleterm.nvim', version = "*", config = true}
+  },
+  {
+    "kdheepak/lazygit.nvim",
+    -- optional for floating window border decoration
+    dependencies = {
+    "nvim-lua/plenary.nvim",
+    },
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
   }
 }, {})
 
@@ -640,7 +653,18 @@ require("nvim-tree").setup()
 
 require('configs')
 require('scripts')
+require('keymaps')
+require('pluginkeymaps')
 
-require("toggleterm").setup({
+require("toggleterm").setup {
+  size = 10,
+  open_mapping = [[<C-\>]],
+  start_in_insert = true,
+  direction = "float",
+  float_opts = {
+    border = "curved",
+    width = math.ceil(vim.o.columns*0.8),
+    height = math.ceil(vim.o.columns*0.2)
+  }
+}
 
-})
